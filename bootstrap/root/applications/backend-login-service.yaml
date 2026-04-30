@@ -16,10 +16,20 @@ spec:
         fullnameOverride: backend-login-service
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-login-service
-          tag: 2da7c83998c4
+          tag: 2da7c83998c4-cors
         containerPort: 8081
         ingress:
-          enabled: false
+          enabled: true
+          className: alb
+          annotations:
+            alb.ingress.kubernetes.io/scheme: internet-facing
+            alb.ingress.kubernetes.io/target-type: ip
+            external-dns.alpha.kubernetes.io/hostname: login.team9.cloud.skala-ai.com
+          hosts:
+            - host: login.team9.cloud.skala-ai.com
+              paths:
+                - path: /
+                  pathType: Prefix
         serviceAccount:
           create: true
           annotations:
