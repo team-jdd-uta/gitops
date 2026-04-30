@@ -17,6 +17,7 @@ spec:
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-socket-io-gateway
           tag: latest
+        containerPort: 3000
         ingress:
           enabled: true
           className: alb
@@ -26,6 +27,7 @@ spec:
             alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
             alb.ingress.kubernetes.io/ssl-redirect: "443"
             alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:881490135253:certificate/15fce3b8-43ed-4555-8d9a-837375603b2e
+            alb.ingress.kubernetes.io/success-codes: "200-499"
             external-dns.alpha.kubernetes.io/hostname: backend.team9.cloud.skala-ai.com
           hosts:
             - host: backend.team9.cloud.skala-ai.com
