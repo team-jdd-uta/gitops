@@ -1,0 +1,62 @@
+namespace: backend
+
+nameOverride: ""
+fullnameOverride: ""
+
+replicaCount: 1
+
+image:
+  repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-login-service
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: false
+  name: ""
+
+podAnnotations: {}
+
+podLabels: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+
+containerPort: 8080
+
+ingress:
+  enabled: true
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    external-dns.alpha.kubernetes.io/hostname: backend.team9.cloud.skala-ai.com
+  hosts:
+    - host: backend.team9.cloud.skala-ai.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: dev
+
+envFromSecretRefs:
+  - backend-app-secret
+
+externalSecret:
+  enabled: false
+  name: ""
+  refreshInterval: 1h
+  clusterSecretStoreName: aws-secretsmanager
+  targetName: ""
+  remoteKey: ""
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

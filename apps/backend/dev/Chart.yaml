@@ -1,0 +1,6 @@
+apiVersion: v2
+name: backend-dev
+description: Dev Helm chart skeleton for backend workloads
+type: application
+version: 0.1.0
+appVersion: "0.1.0"

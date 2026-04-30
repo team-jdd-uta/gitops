@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backend-socket-io-gateway-dev
+  namespace: argocd
+spec:
+  project: team9-dev
+  source:
+    repoURL: https://github.com/team-jdd-uta/gitops.git
+    targetRevision: feat/gitops-app-paths
+    path: apps/backend/dev
+    helm:
+      releaseName: backend-socket-io-gateway
+      values: |
+        nameOverride: backend-socket-io-gateway
+        fullnameOverride: backend-socket-io-gateway
+        image:
+          repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-socket-io-gateway
+          tag: latest
+        ingress:
+          enabled: true
+          className: alb
+          annotations:
+            alb.ingress.kubernetes.io/scheme: internet-facing
+            alb.ingress.kubernetes.io/target-type: ip
+            external-dns.alpha.kubernetes.io/hostname: backend.team9.cloud.skala-ai.com
+          hosts:
+            - host: backend.team9.cloud.skala-ai.com
+              paths:
+                - path: /
+                  pathType: Prefix
+        envFromSecretRefs:
+          - backend-socket-io-gateway-secret
+        externalSecret:
+          enabled: true
+          targetName: backend-socket-io-gateway-secret
+          remoteKey: team9-mini/dev/backend/socket-io-gateway
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backend
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
