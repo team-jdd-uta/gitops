@@ -16,7 +16,7 @@ spec:
         fullnameOverride: backend-login-service
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-login-service
-          tag: 2da7c83998c4
+          tag: 2da7c83998c4-cors
         deploymentAnnotations:
           secret.reloader.stakater.com/reload: backend-login-service-secret
         service:
