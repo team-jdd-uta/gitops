@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/team-jdd-uta/gitops.git
-    targetRevision: feat/gitops-app-paths
+    targetRevision: main
     path: bootstrap/root
   destination:
     server: https://kubernetes.default.svc
