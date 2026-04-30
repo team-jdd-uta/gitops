@@ -21,6 +21,10 @@ spec:
           enabled: false
         envFromSecretRefs:
           - backend-user-service-secret
+        externalSecret:
+          enabled: true
+          targetName: backend-user-service-secret
+          remoteKey: team9-mini/dev/backend/user-service
   destination:
     server: https://kubernetes.default.svc
     namespace: backend

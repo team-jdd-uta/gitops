@@ -21,6 +21,10 @@ spec:
           enabled: false
         envFromSecretRefs:
           - backend-chat-service-secret
+        externalSecret:
+          enabled: true
+          targetName: backend-chat-service-secret
+          remoteKey: team9-mini/dev/backend/chat-service
   destination:
     server: https://kubernetes.default.svc
     namespace: backend

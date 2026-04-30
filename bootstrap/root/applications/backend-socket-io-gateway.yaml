@@ -30,6 +30,10 @@ spec:
                   pathType: Prefix
         envFromSecretRefs:
           - backend-socket-io-gateway-secret
+        externalSecret:
+          enabled: true
+          targetName: backend-socket-io-gateway-secret
+          remoteKey: team9-mini/dev/backend/socket-io-gateway
   destination:
     server: https://kubernetes.default.svc
     namespace: backend

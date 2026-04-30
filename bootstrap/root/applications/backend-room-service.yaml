@@ -21,6 +21,10 @@ spec:
           enabled: false
         envFromSecretRefs:
           - backend-room-service-secret
+        externalSecret:
+          enabled: true
+          targetName: backend-room-service-secret
+          remoteKey: team9-mini/dev/backend/room-service
   destination:
     server: https://kubernetes.default.svc
     namespace: backend

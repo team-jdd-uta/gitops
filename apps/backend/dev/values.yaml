@@ -44,6 +44,14 @@ env:
 envFromSecretRefs:
   - backend-app-secret
 
+externalSecret:
+  enabled: false
+  name: ""
+  refreshInterval: 1h
+  clusterSecretStoreName: aws-secretsmanager
+  targetName: ""
+  remoteKey: ""
+
 resources: {}
 
 nodeSelector: {}

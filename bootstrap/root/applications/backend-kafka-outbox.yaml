@@ -21,6 +21,10 @@ spec:
           enabled: false
         envFromSecretRefs:
           - backend-kafka-outbox-secret
+        externalSecret:
+          enabled: true
+          targetName: backend-kafka-outbox-secret
+          remoteKey: team9-mini/dev/backend/kafka-outbox
   destination:
     server: https://kubernetes.default.svc
     namespace: backend
