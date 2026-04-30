@@ -16,7 +16,7 @@ spec:
         fullnameOverride: backend-login-service
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-login-service
-          tag: 5f6a435-sts
+          tag: f9665d1958a6
         containerPort: 8081
         ingress:
           enabled: true
