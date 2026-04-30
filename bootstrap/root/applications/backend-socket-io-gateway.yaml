@@ -7,7 +7,7 @@ spec:
   project: team9-dev
   source:
     repoURL: https://github.com/team-jdd-uta/gitops.git
-    targetRevision: feat/gitops-app-paths
+    targetRevision: main
     path: apps/backend/dev
     helm:
       releaseName: backend-socket-io-gateway
