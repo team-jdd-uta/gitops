@@ -24,6 +24,9 @@ spec:
           annotations:
             alb.ingress.kubernetes.io/scheme: internet-facing
             alb.ingress.kubernetes.io/target-type: ip
+            alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+            alb.ingress.kubernetes.io/ssl-redirect: "443"
+            alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:881490135253:certificate/15fce3b8-43ed-4555-8d9a-837375603b2e
             external-dns.alpha.kubernetes.io/hostname: login.team9.cloud.skala-ai.com
           hosts:
             - host: login.team9.cloud.skala-ai.com
