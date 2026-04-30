@@ -17,8 +17,27 @@ spec:
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-redis-stream-mongo-consumer
           tag: latest
+        service:
+          port: 3010
+        containerPort: 3010
         ingress:
-          enabled: false
+          enabled: true
+          className: alb
+          annotations:
+            alb.ingress.kubernetes.io/group.name: team9-backend-dev
+            alb.ingress.kubernetes.io/group.order: "60"
+            alb.ingress.kubernetes.io/scheme: internet-facing
+            alb.ingress.kubernetes.io/target-type: ip
+            external-dns.alpha.kubernetes.io/hostname: backend.team9.cloud.skala-ai.com
+          hosts:
+            - host: backend.team9.cloud.skala-ai.com
+              paths:
+                - path: /api/chat-history
+                  pathType: Prefix
+          tls: []
+        env:
+          - name: PORT
+            value: "3010"
         envFromSecretRefs:
           - backend-redis-stream-mongo-consumer-secret
         externalSecret:

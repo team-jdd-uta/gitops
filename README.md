@@ -21,6 +21,7 @@ kubectl apply -f bootstrap/root-application.yaml
 
 - `backend`
 - `frontend`
+- `rtmp`
 
 ## Files that need real input before sync succeeds
 
@@ -38,6 +39,8 @@ kubectl apply -f bootstrap/root-application.yaml
   - backend Helm chart values and templates
 - `apps/frontend/dev`
   - frontend Helm chart values and templates
+- `apps/rtmp/dev`
+  - RTMP Deployment + shared NLB Service manifests
 - `clusters/dev/bootstrap-info-configmap.yaml`
   - example values checklist for the `dev` cluster
 
@@ -85,6 +88,14 @@ Replace these example values before the first real sync.
 - `clusters/dev/bootstrap-info-configmap.yaml`
   - Replace every example repo URL and domain value with the final dev values.
 
+### RTMP app source
+
+- `bootstrap/root/applications/rtmp.yaml`
+  - target revision
+  - manifests path
+- `apps/rtmp/dev`
+  - RTMP deployment and LoadBalancer service
+
 ## Apply Order
 
 Use this order when bringing up the first `dev` cluster bootstrap.
@@ -95,19 +106,21 @@ Use this order when bringing up the first `dev` cluster bootstrap.
 3. Replace the example values listed in the checklist above.
 4. Replace the Helm chart skeleton under `apps/backend/dev` and
    `apps/frontend/dev` with the real deployment source.
-5. Optionally apply the namespace bundle:
+5. Keep `apps/rtmp/dev` aligned with the RTMP image tag and public NLB endpoint.
+6. Optionally apply the namespace bundle:
 
 ```bash
 kubectl apply -k clusters/dev
 ```
 
-6. Apply the root app:
+7. Apply the root app:
 
 ```bash
 kubectl apply -f bootstrap/root-application.yaml
 ```
 
-7. Verify in Argo CD that:
+8. Verify in Argo CD that:
    - `team9-root-dev` syncs cleanly
    - `backend-dev` and `frontend-dev` are created
+   - `rtmp-dev` is created and gets a public LoadBalancer hostname
    - no child app is stuck due to repo credential or path errors

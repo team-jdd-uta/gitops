@@ -8,3 +8,4 @@ resources:
   - applications/backend-socket-io-gateway.yaml
   - applications/backend-chat-service.yaml
   - applications/backend-room-service.yaml
+  - applications/rtmp.yaml

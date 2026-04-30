@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rtmp
+  annotations:
+    # One public NLB keeps ingest (1935/TCP) and playback (80/TCP) on the same endpoint.
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: HTTP
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "80"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /stat
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: rtmp
+    app.kubernetes.io/instance: rtmp
+  ports:
+    - name: rtmp
+      port: 1935
+      targetPort: rtmp
+      protocol: TCP
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP

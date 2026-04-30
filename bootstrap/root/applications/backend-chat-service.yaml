@@ -19,8 +19,31 @@ spec:
           tag: latest
         deploymentAnnotations:
           secret.reloader.stakater.com/reload: backend-chat-service-secret
+        service:
+          port: 8083
+        containerPort: 8083
         ingress:
-          enabled: false
+          enabled: true
+          className: alb
+          annotations:
+            alb.ingress.kubernetes.io/group.name: team9-backend-dev
+            alb.ingress.kubernetes.io/group.order: "40"
+            alb.ingress.kubernetes.io/scheme: internet-facing
+            alb.ingress.kubernetes.io/target-type: ip
+            external-dns.alpha.kubernetes.io/hostname: backend.team9.cloud.skala-ai.com
+          hosts:
+            - host: backend.team9.cloud.skala-ai.com
+              paths:
+                - path: /api/chat
+                  pathType: Prefix
+          tls: []
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: dev
+          - name: SERVER_CONTEXT_PATH
+            value: /api/chat
+          - name: ROOM_SERVICE_BASE_URL
+            value: http://backend-room-service:8082/api/room
         envFromSecretRefs:
           - backend-chat-service-secret
         externalSecret:

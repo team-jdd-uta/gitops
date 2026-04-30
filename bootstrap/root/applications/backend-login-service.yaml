@@ -19,6 +19,8 @@ spec:
           tag: f9665d1958a6
         deploymentAnnotations:
           secret.reloader.stakater.com/reload: backend-login-service-secret
+        service:
+          port: 8081
         containerPort: 8081
         ingress:
           enabled: true

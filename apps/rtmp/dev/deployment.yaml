@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rtmp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rtmp
+      app.kubernetes.io/instance: rtmp
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rtmp
+        app.kubernetes.io/instance: rtmp
+    spec:
+      containers:
+        - name: nginx-rtmp
+          image: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-rtmp:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: rtmp
+              containerPort: 1935
+              protocol: TCP
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /stat
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /stat
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          volumeMounts:
+            - name: rtmp-data
+              mountPath: /opt/data
+      volumes:
+        - name: rtmp-data
+          emptyDir: {}
