@@ -17,6 +17,7 @@ spec:
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-login-service
           tag: latest
+        containerPort: 8081
         ingress:
           enabled: false
         serviceAccount:
