@@ -13,6 +13,7 @@ image:
 serviceAccount:
   create: false
   name: ""
+  annotations: {}
 
 podAnnotations: {}
 

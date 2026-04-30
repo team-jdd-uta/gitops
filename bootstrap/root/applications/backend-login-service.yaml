@@ -19,6 +19,10 @@ spec:
           tag: latest
         ingress:
           enabled: false
+        serviceAccount:
+          create: true
+          annotations:
+            eks.amazonaws.com/role-arn: arn:aws:iam::881490135253:role/team9-mini-dev-login-service-cognito
         envFromSecretRefs:
           - backend-login-service-secret
         externalSecret:
