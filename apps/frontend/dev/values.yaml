@@ -6,7 +6,7 @@ fullnameOverride: ""
 replicaCount: 1
 
 image:
-  repository: 123456789012.dkr.ecr.ap-northeast-2.amazonaws.com/team9-frontend
+  repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-ui-vue
   tag: latest
   pullPolicy: IfNotPresent
 
