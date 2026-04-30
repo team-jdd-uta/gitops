@@ -1,0 +1,53 @@
+namespace: backend
+
+nameOverride: ""
+fullnameOverride: ""
+
+replicaCount: 1
+
+image:
+  repository: 123456789012.dkr.ecr.ap-northeast-2.amazonaws.com/team9-backend-api-gateway
+  tag: latest
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: false
+  name: ""
+
+podAnnotations: {}
+
+podLabels: {}
+
+service:
+  type: ClusterIP
+  port: 8080
+
+containerPort: 8080
+
+ingress:
+  enabled: true
+  className: alb
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    external-dns.alpha.kubernetes.io/hostname: api.dev.example.com
+  hosts:
+    - host: api.dev.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+env:
+  - name: SPRING_PROFILES_ACTIVE
+    value: dev
+
+envFromSecretRefs:
+  - backend-app-secret
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

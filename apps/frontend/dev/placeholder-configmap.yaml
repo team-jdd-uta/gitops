@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: frontend-manifest-placeholder
-  namespace: frontend
-data:
-  README: |
-    Replace this placeholder with the real frontend manifests, Helm values, or
-    Kustomize overlay for the dev environment.

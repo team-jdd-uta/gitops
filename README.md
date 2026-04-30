@@ -41,9 +41,9 @@ kubectl apply -f bootstrap/root-application.yaml
   - target revision
   - manifests path
 - `apps/backend/dev`
-  - backend manifests, Helm values, or Kustomize overlay
+  - backend Helm chart values and templates
 - `apps/frontend/dev`
-  - frontend manifests, Helm values, or Kustomize overlay
+  - frontend Helm chart values and templates
 - `clusters/dev/bootstrap-info-configmap.yaml`
   - example values checklist for the `dev` cluster
 
@@ -74,7 +74,7 @@ Replace these example values before the first real sync.
   - `spec.source.targetRevision`
   - `spec.source.path`
 - `apps/backend/dev`
-  - replace the placeholder manifests with the real backend deployment source
+  - replace the Helm chart skeleton values and templates with the real backend deployment source
 
 ### Frontend app source
 
@@ -82,7 +82,7 @@ Replace these example values before the first real sync.
   - `spec.source.targetRevision`
   - `spec.source.path`
 - `apps/frontend/dev`
-  - replace the placeholder manifests with the real frontend deployment source
+  - replace the Helm chart skeleton values and templates with the real frontend deployment source
 
 ### External DNS
 
@@ -104,7 +104,7 @@ Use this order when bringing up the first `dev` cluster bootstrap.
 2. If the gitops repo is private, copy one of the example repository secrets,
    replace the placeholder values, and apply it to `argocd`.
 3. Replace the example values listed in the checklist above.
-4. Replace the placeholder manifests under `apps/backend/dev` and
+4. Replace the Helm chart skeleton under `apps/backend/dev` and
    `apps/frontend/dev` with the real deployment source.
 5. Optionally apply the namespace bundle:
 
