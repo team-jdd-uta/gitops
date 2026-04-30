@@ -8,9 +8,7 @@ spec:
   sourceRepos:
     - https://charts.external-secrets.io
     - https://kubernetes-sigs.github.io/external-dns/
-    - https://github.com/example-org/team9-backend-manifests.git
-    - https://github.com/example-org/team9-frontend-manifests.git
-    - https://github.com/example-org/team9-gitops.git
+    - https://github.com/team-jdd-uta/gitops.git
   destinations:
     - namespace: argocd
       server: https://kubernetes.default.svc

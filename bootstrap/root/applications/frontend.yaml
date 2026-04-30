@@ -6,9 +6,9 @@ metadata:
 spec:
   project: team9-dev
   source:
-    repoURL: https://github.com/example-org/team9-frontend-manifests.git
+    repoURL: https://github.com/team-jdd-uta/gitops.git
     targetRevision: main
-    path: deploy/overlays/dev
+    path: apps/frontend/dev
   destination:
     server: https://kubernetes.default.svc
     namespace: frontend

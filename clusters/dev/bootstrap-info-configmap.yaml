@@ -4,17 +4,17 @@ metadata:
   name: team9-dev-bootstrap-info
   namespace: argocd
 data:
-  gitops_repo_url: https://github.com/example-org/team9-gitops.git
-  backend_repo_url: https://github.com/example-org/team9-backend-manifests.git
+  gitops_repo_url: https://github.com/team-jdd-uta/gitops.git
+  backend_repo_url: https://github.com/team-jdd-uta/gitops.git
   backend_target_revision: main
-  backend_path: deploy/overlays/dev
-  frontend_repo_url: https://github.com/example-org/team9-frontend-manifests.git
+  backend_path: apps/backend/dev
+  frontend_repo_url: https://github.com/team-jdd-uta/gitops.git
   frontend_target_revision: main
-  frontend_path: deploy/overlays/dev
+  frontend_path: apps/frontend/dev
   external_dns_domain_filter: dev.example.com
   external_dns_txt_owner_id: team9-dev
   external_dns_irsa_role_arn: arn:aws:iam::123456789012:role/team9-dev-external-dns
   notes: |
-    Replace all example values before syncing production-like workloads.
-    If the repositories are private, register them in Argo CD or apply the
-    example repository secrets with real credentials.
+    Replace the example domain and IAM values before syncing production-like
+    workloads. Backend and frontend manifests are expected under apps/backend/dev
+    and apps/frontend/dev in this same repository.
