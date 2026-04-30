@@ -29,9 +29,9 @@ ingress:
   className: alb
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
-    external-dns.alpha.kubernetes.io/hostname: api.dev.example.com
+    external-dns.alpha.kubernetes.io/hostname: backend.team9.cloud.skala-ai.com
   hosts:
-    - host: api.dev.example.com
+    - host: backend.team9.cloud.skala-ai.com
       paths:
         - path: /
           pathType: Prefix

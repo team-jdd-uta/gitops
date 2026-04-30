@@ -11,7 +11,7 @@ data:
   frontend_repo_url: https://github.com/team-jdd-uta/gitops.git
   frontend_target_revision: main
   frontend_path: apps/frontend/dev
-  external_dns_domain_filter: dev.example.com
+  external_dns_domain_filter: team9.cloud.skala-ai.com
   external_dns_txt_owner_id: team9-dev
   external_dns_irsa_role_arn: arn:aws:iam::123456789012:role/team9-dev-external-dns
   notes: |
