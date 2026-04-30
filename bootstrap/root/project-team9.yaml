@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: team9-dev
+  namespace: argocd
+spec:
+  description: Team9 dev applications bootstrapped through app-of-apps
+  sourceRepos:
+    - https://charts.external-secrets.io
+    - https://kubernetes-sigs.github.io/external-dns/
+    - https://github.com/example-org/team9-backend-manifests.git
+    - https://github.com/example-org/team9-frontend-manifests.git
+    - https://github.com/example-org/team9-gitops.git
+  destinations:
+    - namespace: argocd
+      server: https://kubernetes.default.svc
+    - namespace: external-secrets
+      server: https://kubernetes.default.svc
+    - namespace: ingress-system
+      server: https://kubernetes.default.svc
+    - namespace: backend
+      server: https://kubernetes.default.svc
+    - namespace: frontend
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
