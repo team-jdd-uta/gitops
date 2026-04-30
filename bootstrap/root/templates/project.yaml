@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ .Values.project.name }}
+  namespace: {{ .Values.project.namespace }}
+spec:
+  description: {{ .Values.project.description | quote }}
+  sourceRepos:
+    {{- toYaml .Values.project.sourceRepos | nindent 4 }}
+  destinations:
+    {{- range .Values.project.destinations }}
+    - namespace: {{ .namespace }}
+      server: {{ $.Values.clusterServer }}
+    {{- end }}
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"

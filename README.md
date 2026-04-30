@@ -14,13 +14,12 @@ This repository bootstraps Argo CD for the `dev` cluster with an
 kubectl apply -f bootstrap/root-application.yaml
 ```
 
-4. Argo CD will sync the child Applications declared under
-   `bootstrap/root/applications/`.
+4. Argo CD will render the Helm app-of-apps chart under `bootstrap/root`
+   and sync the backend child Applications declared in `bootstrap/root/values.yaml`.
 
 ## What gets bootstrapped
 
-- `backend`
-- `frontend`
+- backend services
 
 ## Files that need real input before sync succeeds
 
@@ -31,13 +30,8 @@ kubectl apply -f bootstrap/root-application.yaml
 - `bootstrap/root/applications/backend.yaml`
   - target revision
   - manifests path
-- `bootstrap/root/applications/frontend.yaml`
-  - target revision
-  - manifests path
 - `apps/backend/dev`
   - backend Helm chart values and templates
-- `apps/frontend/dev`
-  - frontend Helm chart values and templates
 - `clusters/dev/bootstrap-info-configmap.yaml`
   - example values checklist for the `dev` cluster
 
@@ -74,11 +68,8 @@ Replace these example values before the first real sync.
 
 ### Frontend app source
 
-- `bootstrap/root/applications/frontend.yaml`
-  - `spec.source.targetRevision`
-  - `spec.source.path`
-- `apps/frontend/dev`
-  - replace the Helm chart skeleton values and templates with the real frontend deployment source
+The frontend Argo CD Application is intentionally not bootstrapped by this root
+chart. Frontend deployment is handled outside the app-of-apps flow.
 
 ### Cluster checklist record
 
@@ -93,8 +84,8 @@ Use this order when bringing up the first `dev` cluster bootstrap.
 2. If the gitops repo is private, copy one of the example repository secrets,
    replace the placeholder values, and apply it to `argocd`.
 3. Replace the example values listed in the checklist above.
-4. Replace the Helm chart skeleton under `apps/backend/dev` and
-   `apps/frontend/dev` with the real deployment source.
+4. Replace the Helm chart skeleton under `apps/backend/dev` with the real
+   backend deployment source.
 5. Optionally apply the namespace bundle:
 
 ```bash
@@ -109,5 +100,5 @@ kubectl apply -f bootstrap/root-application.yaml
 
 7. Verify in Argo CD that:
    - `team9-root-dev` syncs cleanly
-   - `backend-dev` and `frontend-dev` are created
+   - backend child Applications are created
    - no child app is stuck due to repo credential or path errors

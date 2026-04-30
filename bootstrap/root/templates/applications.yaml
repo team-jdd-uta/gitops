@@ -1,0 +1,50 @@
+{{- range .Values.applications }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .name }}-dev
+  namespace: argocd
+spec:
+  project: {{ $.Values.project.name }}
+  source:
+    repoURL: https://github.com/team-jdd-uta/gitops.git
+    targetRevision: main
+    path: {{ .chartPath }}
+    helm:
+      releaseName: {{ .releaseName }}
+      values: |
+        nameOverride: {{ .releaseName }}
+        fullnameOverride: {{ .releaseName }}
+        image:
+          repository: {{ .image.repository }}
+          tag: {{ .image.tag }}
+        {{- with .containerPort }}
+        containerPort: {{ . }}
+        {{- end }}
+        {{- with .ingress }}
+        ingress:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        {{- with .serviceAccount }}
+        serviceAccount:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        {{- with .envFromSecretRefs }}
+        envFromSecretRefs:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+        {{- with .externalSecret }}
+        externalSecret:
+{{ toYaml . | indent 10 }}
+        {{- end }}
+  destination:
+    server: {{ $.Values.clusterServer }}
+    namespace: {{ .namespace }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+{{- end }}

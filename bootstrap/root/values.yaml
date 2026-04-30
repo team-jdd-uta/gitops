@@ -1,0 +1,142 @@
+clusterServer: https://kubernetes.default.svc
+
+project:
+  name: team9-dev
+  namespace: argocd
+  description: Team9 dev applications bootstrapped through Helm app-of-apps
+  sourceRepos:
+    - https://github.com/team-jdd-uta/gitops.git
+  destinations:
+    - namespace: argocd
+    - namespace: backend
+
+applications:
+  - name: backend-user-service
+    releaseName: backend-user-service
+    namespace: backend
+    chartPath: apps/backend/dev
+    image:
+      repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-user-service
+      tag: latest
+    ingress:
+      enabled: false
+    envFromSecretRefs:
+      - backend-user-service-secret
+    externalSecret:
+      enabled: true
+      targetName: backend-user-service-secret
+      remoteKey: team9-mini/dev/backend/user-service
+
+  - name: backend-redis-stream-mongo-consumer
+    releaseName: backend-redis-stream-mongo-consumer
+    namespace: backend
+    chartPath: apps/backend/dev
+    image:
+      repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-redis-stream-mongo-consumer
+      tag: latest
+    ingress:
+      enabled: false
+    envFromSecretRefs:
+      - backend-redis-stream-mongo-consumer-secret
+    externalSecret:
+      enabled: true
+      targetName: backend-redis-stream-mongo-consumer-secret
+      remoteKey: team9-mini/dev/backend/redis-stream-mongo-consumer
+
+  - name: backend-login-service
+    releaseName: backend-login-service
+    namespace: backend
+    chartPath: apps/backend/dev
+    image:
+      repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-login-service
+      tag: 5f6a435-sts
+    containerPort: 8081
+    ingress:
+      enabled: true
+      className: alb
+      annotations:
+        alb.ingress.kubernetes.io/scheme: internet-facing
+        alb.ingress.kubernetes.io/target-type: ip
+        alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+        alb.ingress.kubernetes.io/ssl-redirect: "443"
+        alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:881490135253:certificate/15fce3b8-43ed-4555-8d9a-837375603b2e
+        alb.ingress.kubernetes.io/success-codes: "200-499"
+        external-dns.alpha.kubernetes.io/hostname: login.team9.cloud.skala-ai.com
+      hosts:
+        - host: login.team9.cloud.skala-ai.com
+          paths:
+            - path: /
+              pathType: Prefix
+    serviceAccount:
+      create: true
+      annotations:
+        eks.amazonaws.com/role-arn: arn:aws:iam::881490135253:role/team9-mini-dev-login-service-cognito
+    envFromSecretRefs:
+      - backend-login-service-secret
+    externalSecret:
+      enabled: true
+      targetName: backend-login-service-secret
+      remoteKey: team9-mini/dev/backend/login-service
+
+  - name: backend-socket-io-gateway
+    releaseName: backend-socket-io-gateway
+    namespace: backend
+    chartPath: apps/backend/dev
+    image:
+      repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-socket-io-gateway
+      tag: latest
+    containerPort: 3000
+    ingress:
+      enabled: true
+      className: alb
+      annotations:
+        alb.ingress.kubernetes.io/scheme: internet-facing
+        alb.ingress.kubernetes.io/target-type: ip
+        alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+        alb.ingress.kubernetes.io/ssl-redirect: "443"
+        alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:881490135253:certificate/15fce3b8-43ed-4555-8d9a-837375603b2e
+        alb.ingress.kubernetes.io/success-codes: "200-499"
+        external-dns.alpha.kubernetes.io/hostname: backend.team9.cloud.skala-ai.com
+      hosts:
+        - host: backend.team9.cloud.skala-ai.com
+          paths:
+            - path: /
+              pathType: Prefix
+    envFromSecretRefs:
+      - backend-socket-io-gateway-secret
+    externalSecret:
+      enabled: true
+      targetName: backend-socket-io-gateway-secret
+      remoteKey: team9-mini/dev/backend/socket-io-gateway
+
+  - name: backend-chat-service
+    releaseName: backend-chat-service
+    namespace: backend
+    chartPath: apps/backend/dev
+    image:
+      repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-chat-service
+      tag: latest
+    ingress:
+      enabled: false
+    envFromSecretRefs:
+      - backend-chat-service-secret
+    externalSecret:
+      enabled: true
+      targetName: backend-chat-service-secret
+      remoteKey: team9-mini/dev/backend/chat-service
+
+  - name: backend-room-service
+    releaseName: backend-room-service
+    namespace: backend
+    chartPath: apps/backend/dev
+    image:
+      repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-room-service
+      tag: latest
+    ingress:
+      enabled: false
+    envFromSecretRefs:
+      - backend-room-service-secret
+    externalSecret:
+      enabled: true
+      targetName: backend-room-service-secret
+      remoteKey: team9-mini/dev/backend/room-service
