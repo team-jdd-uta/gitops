@@ -42,6 +42,9 @@ spec:
           create: true
           annotations:
             eks.amazonaws.com/role-arn: arn:aws:iam::881490135253:role/team9-mini-dev-login-service-cognito
+        env:
+          - name: CORS_ALLOWED_ORIGINS
+            value: https://front.team9.cloud.skala-ai.com
         envFromSecretRefs:
           - backend-login-service-secret
         externalSecret:
