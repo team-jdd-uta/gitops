@@ -19,8 +19,6 @@ kubectl apply -f bootstrap/root-application.yaml
 
 ## What gets bootstrapped
 
-- `external-secrets`
-- `external-dns`
 - `backend`
 - `frontend`
 
@@ -30,10 +28,6 @@ kubectl apply -f bootstrap/root-application.yaml
   - `spec.source.repoURL`
 - `bootstrap/repositories/repository-team9-gitops.example-secret.yaml`
   - gitops repo URL and credentials if the repo is private
-- `bootstrap/root/applications/external-dns.yaml`
-  - AWS Route53 domain filter
-  - IRSA role ARN for `external-dns`
-  - TXT owner ID
 - `bootstrap/root/applications/backend.yaml`
   - target revision
   - manifests path
@@ -49,6 +43,8 @@ kubectl apply -f bootstrap/root-application.yaml
 
 ## Notes
 
+- `external-secrets` and `external-dns` are intentionally managed by Terraform
+  in `infra/terraform/layers/05-platform-addons`, not by this root app.
 - The child `backend` and `frontend` deployments intentionally point to paths
   inside this same gitops repository.
 - The example repository secrets are not included by default in the root sync
@@ -84,13 +80,6 @@ Replace these example values before the first real sync.
 - `apps/frontend/dev`
   - replace the Helm chart skeleton values and templates with the real frontend deployment source
 
-### External DNS
-
-- `bootstrap/root/applications/external-dns.yaml`
-  - `domainFilters`
-  - `txtOwnerId`
-  - `eks.amazonaws.com/role-arn`
-
 ### Cluster checklist record
 
 - `clusters/dev/bootstrap-info-configmap.yaml`
@@ -120,6 +109,5 @@ kubectl apply -f bootstrap/root-application.yaml
 
 7. Verify in Argo CD that:
    - `team9-root-dev` syncs cleanly
-   - `external-secrets-dev`, `external-dns-dev`, `backend-dev`, and
-     `frontend-dev` are created
+   - `backend-dev` and `frontend-dev` are created
    - no child app is stuck due to repo credential or path errors
