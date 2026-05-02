@@ -44,6 +44,8 @@ spec:
             value: "3000"
           - name: SOCKET_PATH
             value: /api/socket
+          - name: REDIS_NODES
+            value: team9-mini-dev-redis-pubsub.1spwho.clustercfg.apn2.cache.amazonaws.com:6379
           - name: ROOM_SERVICE_URL
             value: http://backend-room-service:8082/api/room
           - name: CHAT_SERVICE_URL
