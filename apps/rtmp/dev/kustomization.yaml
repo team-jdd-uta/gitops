@@ -4,3 +4,4 @@ namespace: rtmp
 resources:
   - deployment.yaml
   - service.yaml
+  - ingress.yaml
