@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: frontend-ui-vue-dev
+  namespace: argocd
+spec:
+  project: team9-dev
+  source:
+    repoURL: https://github.com/team-jdd-uta/gitops.git
+    targetRevision: main
+    path: apps/frontend/dev
+    helm:
+      releaseName: frontend-ui-vue
+      values: |
+        nameOverride: frontend-ui-vue
+        fullnameOverride: frontend-ui-vue
+        image:
+          repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-ui-vue
+          tag: latest
+        service:
+          port: 80
+        containerPort: 80
+        ingress:
+          enabled: true
+          className: alb
+          annotations:
+            alb.ingress.kubernetes.io/scheme: internet-facing
+            external-dns.alpha.kubernetes.io/hostname: front.team9.cloud.skala-ai.com
+          hosts:
+            - host: front.team9.cloud.skala-ai.com
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls: []
+        env:
+          - name: NODE_ENV
+            value: production
+        envFromSecretRefs:
+          - frontend-app-secret
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: frontend
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

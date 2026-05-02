@@ -45,9 +45,9 @@ spec:
           - name: SOCKET_PATH
             value: /api/socket
           - name: ROOM_SERVICE_URL
-            value: http://backend-room-service:8082
+            value: http://backend-room-service:8082/api/room
           - name: CHAT_SERVICE_URL
-            value: http://backend-chat-service:8083
+            value: http://backend-chat-service:8083/api/chat
         envFromSecretRefs:
           - backend-socket-io-gateway-secret
         externalSecret:
