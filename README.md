@@ -1,126 +1,118 @@
-# gitops
+# team9-mini GitOps
 
-This repository bootstraps Argo CD for the `dev` cluster with an
-`app-of-apps` structure.
+This repository is the Argo CD source of truth for the `team9-mini` dev cluster.
+It uses an app-of-apps structure: one root Application creates the Team9 project
+and the child Applications for the services.
 
-## Bootstrap flow
+## Bootstrap Flow
 
-1. Make sure Argo CD is already installed in the target cluster.
-2. Register this gitops repository in Argo CD, or apply the example repo
-   credential secret with real values first.
+1. Install Argo CD and platform add-ons from the `infra` repository.
+2. Register this gitops repository in Argo CD if it is private.
 3. Apply the root application:
 
 ```bash
 kubectl apply -f bootstrap/root-application.yaml
 ```
 
-4. Argo CD will sync the child Applications declared under
-   `bootstrap/root/applications/`.
+4. Argo CD syncs the child Applications declared under `bootstrap/root/applications/`.
 
-## What gets bootstrapped
+## Active Applications
 
-- `backend`
-- `frontend`
-- `rtmp`
+- `team9-root-dev`
+- `backend-user-service-dev`
+- `backend-login-service-dev`
+- `backend-room-service-dev`
+- `backend-chat-service-dev`
+- `backend-socket-io-gateway-dev`
+- `backend-redis-stream-mongo-consumer-dev`
+- `frontend-ui-vue-dev`
+- `rtmp-dev`
 
-## Files that need real input before sync succeeds
+The root kustomization currently includes the service Applications above.
+`external-secrets`, `external-dns`, and old `backend-kafka-outbox` manifests are
+kept as references but are not part of the active root sync path.
 
-- `bootstrap/root-application.yaml`
-  - `spec.source.repoURL`
-- `bootstrap/repositories/repository-team9-gitops.example-secret.yaml`
-  - gitops repo URL and credentials if the repo is private
-- `bootstrap/root/applications/backend.yaml`
-  - target revision
-  - manifests path
-- `bootstrap/root/applications/frontend.yaml`
-  - target revision
-  - manifests path
-- `apps/backend/dev`
-  - backend Helm chart values and templates
-- `apps/frontend/dev`
-  - frontend Helm chart values and templates
-- `apps/rtmp/dev`
-  - RTMP Deployment + shared NLB Service manifests
-- `clusters/dev/bootstrap-info-configmap.yaml`
-  - example values checklist for the `dev` cluster
+## Repository Layout
 
-## Notes
+```text
+bootstrap/
+  root-application.yaml
+  root/
+    project-team9.yaml
+    applications/
+apps/
+  backend/dev/
+  frontend/dev/
+  rtmp/dev/
+clusters/
+  dev/
+```
 
-- `external-secrets` and `external-dns` are intentionally managed by Terraform
-  in `infra/terraform/layers/05-platform-addons`, not by this root app.
-- The child `backend` and `frontend` deployments intentionally point to paths
-  inside this same gitops repository.
-- The example repository secrets are not included by default in the root sync
-  path. Fill them in and apply them, or register the repositories in Argo CD
-  through another secure workflow.
+## How Deployments Work
 
-## Real Value Checklist
+- Backend services share the Helm chart in `apps/backend/dev`.
+  Each Argo Application passes service-specific Helm values inline.
+- The frontend uses the Helm chart in `apps/frontend/dev`.
+- RTMP uses raw Kubernetes manifests under `apps/rtmp/dev`.
+- All active child Applications point at this same gitops repository and
+  `targetRevision: main`.
+- Argo CD automated sync is enabled with `prune` and `selfHeal`.
 
-Replace these example values before the first real sync.
+## Runtime Integrations
 
-### GitOps repo access
+- External Secrets Operator and `ClusterSecretStore/aws-secretsmanager` are
+  installed by Terraform in `infra/terraform/layers/05-platform-addons`.
+- Service `ExternalSecret` resources read from AWS Secrets Manager and create
+  Kubernetes Secrets such as `backend-room-service-secret`.
+- Stakater Reloader is installed by Terraform. Services with
+  `secret.reloader.stakater.com/reload` restart automatically when their Secret
+  changes.
+- Backend services use the shared ALB host `backend.team9.cloud.skala-ai.com`
+  with path-based routing.
+- Login service uses the dedicated ALB host `login.team9.cloud.skala-ai.com`.
+- Frontend uses `front.team9.cloud.skala-ai.com`.
+- RTMP uses a public NLB for TCP `1935` ingest and HTTP `80` HLS/stat endpoints.
 
-- `bootstrap/root-application.yaml`
-  - `spec.source.repoURL`
-- `bootstrap/repositories/repository-team9-gitops.example-secret.yaml`
-  - `stringData.url`
-  - `stringData.username`
-  - `stringData.password`
+## Service Notes
 
-### Backend app source
-
-- `bootstrap/root/applications/backend.yaml`
-  - `spec.source.targetRevision`
-  - `spec.source.path`
-- `apps/backend/dev`
-  - replace the Helm chart skeleton values and templates with the real backend deployment source
-
-### Frontend app source
-
-- `bootstrap/root/applications/frontend.yaml`
-  - `spec.source.targetRevision`
-  - `spec.source.path`
-- `apps/frontend/dev`
-  - replace the Helm chart skeleton values and templates with the real frontend deployment source
-
-### Cluster checklist record
-
-- `clusters/dev/bootstrap-info-configmap.yaml`
-  - Replace every example repo URL and domain value with the final dev values.
-
-### RTMP app source
-
-- `bootstrap/root/applications/rtmp.yaml`
-  - target revision
-  - manifests path
-- `apps/rtmp/dev`
-  - RTMP deployment and LoadBalancer service
+- `backend-room-service-dev` reads RDS credentials from
+  `team9-mini-dev-db-02-credentials` and `RTMP_CALLBACK_SECRET` from
+  `team9-mini/dev/backend/rtmp`.
+- `backend-chat-service-dev` and `backend-socket-io-gateway-dev` read Redis
+  Pub/Sub connection values from `team9-mini-dev-redis-pubsub`.
+- `rtmp-dev` currently runs image
+  `881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-rtmp:154d719`.
+- RTMP callback traffic targets `backend-room-service` in the `backend`
+  namespace through the RTMP image configuration.
 
 ## Apply Order
 
-Use this order when bringing up the first `dev` cluster bootstrap.
+Use this order when bringing up a fresh dev cluster.
 
-1. Install Argo CD in the target cluster.
+1. Apply the required infra layers, especially `05-platform-addons`, `06-data`,
+   `08-cicd`, and `09-auth`.
 2. If the gitops repo is private, copy one of the example repository secrets,
    replace the placeholder values, and apply it to `argocd`.
-3. Replace the example values listed in the checklist above.
-4. Replace the Helm chart skeleton under `apps/backend/dev` and
-   `apps/frontend/dev` with the real deployment source.
-5. Keep `apps/rtmp/dev` aligned with the RTMP image tag and public NLB endpoint.
-6. Optionally apply the namespace bundle:
+3. Optionally apply the namespace bundle:
 
 ```bash
 kubectl apply -k clusters/dev
 ```
 
-7. Apply the root app:
+4. Apply the root app:
 
 ```bash
 kubectl apply -f bootstrap/root-application.yaml
 ```
 
-8. Verify in Argo CD that:
-   - `team9-root-dev` syncs cleanly
-   - `backend-dev` and `frontend-dev` are created
-   - `rtmp-dev` is created and gets a public LoadBalancer hostname
-   - no child app is stuck due to repo credential or path errors
+5. Verify in Argo CD that all active child Applications are `Synced` and
+   `Healthy`.
+
+## Verification Commands
+
+```bash
+kubectl get applications -n argocd
+kubectl get deploy,svc,ingress,externalsecret -n backend
+kubectl get deploy,svc,pod -n frontend
+kubectl get deploy,svc,pod -n rtmp
+```
