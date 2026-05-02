@@ -67,6 +67,10 @@ spec:
               remoteRef:
                 key: team9-mini-dev-db-03-credentials
                 property: password
+            - secretKey: SPRING_REDIS_CLUSTER_NODES
+              remoteRef:
+                key: team9-mini-dev-redis-pubsub
+                property: SPRING_REDIS_CLUSTER_NODES
   destination:
     server: https://kubernetes.default.svc
     namespace: backend

@@ -54,6 +54,11 @@ spec:
           enabled: true
           targetName: backend-socket-io-gateway-secret
           remoteKey: team9-mini/dev/backend/socket-io-gateway
+          data:
+            - secretKey: REDIS_NODES
+              remoteRef:
+                key: team9-mini-dev-redis-pubsub
+                property: REDIS_NODES
   destination:
     server: https://kubernetes.default.svc
     namespace: backend
