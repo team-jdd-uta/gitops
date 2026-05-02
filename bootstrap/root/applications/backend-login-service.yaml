@@ -44,6 +44,15 @@ spec:
           enabled: true
           targetName: backend-login-service-secret
           remoteKey: team9-mini/dev/backend/login-service
+          data:
+            - secretKey: SPRING_DATASOURCE_USERNAME
+              remoteRef:
+                key: team9-mini-dev-db-01-credentials
+                property: username
+            - secretKey: SPRING_DATASOURCE_PASSWORD
+              remoteRef:
+                key: team9-mini-dev-db-01-credentials
+                property: password
   destination:
     server: https://kubernetes.default.svc
     namespace: backend

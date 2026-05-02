@@ -53,6 +53,7 @@ externalSecret:
   clusterSecretStoreName: aws-secretsmanager
   targetName: ""
   remoteKey: ""
+  data: []
 
 resources: {}
 
