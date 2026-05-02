@@ -17,11 +17,15 @@ spec:
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-socket-io-gateway
           tag: latest
+        service:
+          port: 3000
         containerPort: 3000
         ingress:
           enabled: true
           className: alb
           annotations:
+            alb.ingress.kubernetes.io/group.name: team9-backend-dev
+            alb.ingress.kubernetes.io/group.order: "50"
             alb.ingress.kubernetes.io/scheme: internet-facing
             alb.ingress.kubernetes.io/target-type: ip
             alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
@@ -32,8 +36,18 @@ spec:
           hosts:
             - host: backend.team9.cloud.skala-ai.com
               paths:
-                - path: /
+                - path: /api/socket
                   pathType: Prefix
+          tls: []
+        env:
+          - name: PORT
+            value: "3000"
+          - name: SOCKET_PATH
+            value: /api/socket
+          - name: ROOM_SERVICE_URL
+            value: http://backend-room-service:8082/api/room
+          - name: CHAT_SERVICE_URL
+            value: http://backend-chat-service:8083/api/chat
         envFromSecretRefs:
           - backend-socket-io-gateway-secret
         externalSecret:

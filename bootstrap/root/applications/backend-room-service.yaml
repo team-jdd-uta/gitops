@@ -19,8 +19,31 @@ spec:
           tag: latest
         deploymentAnnotations:
           secret.reloader.stakater.com/reload: backend-room-service-secret
+        service:
+          port: 8082
+        containerPort: 8082
         ingress:
-          enabled: false
+          enabled: true
+          className: alb
+          annotations:
+            alb.ingress.kubernetes.io/group.name: team9-backend-dev
+            alb.ingress.kubernetes.io/group.order: "30"
+            alb.ingress.kubernetes.io/scheme: internet-facing
+            alb.ingress.kubernetes.io/target-type: ip
+            external-dns.alpha.kubernetes.io/hostname: backend.team9.cloud.skala-ai.com
+          hosts:
+            - host: backend.team9.cloud.skala-ai.com
+              paths:
+                - path: /api/room
+                  pathType: Prefix
+          tls: []
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: dev
+          - name: SERVER_CONTEXT_PATH
+            value: /api/room
+          - name: CORS_ALLOWED_ORIGINS
+            value: https://front.team9.cloud.skala-ai.com,http://localhost:*
         envFromSecretRefs:
           - backend-room-service-secret
         externalSecret:
@@ -44,6 +67,10 @@ spec:
               remoteRef:
                 key: team9-mini-dev-db-02-credentials
                 property: password
+            - secretKey: RTMP_CALLBACK_SECRET
+              remoteRef:
+                key: team9-mini/dev/backend/rtmp
+                property: RTMP_CALLBACK_SECRET
   destination:
     server: https://kubernetes.default.svc
     namespace: backend

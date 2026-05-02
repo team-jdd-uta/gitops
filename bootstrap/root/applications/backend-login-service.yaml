@@ -16,9 +16,11 @@ spec:
         fullnameOverride: backend-login-service
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-login-service
-          tag: f9665d1958a6
+          tag: 5f6a435-sts
         deploymentAnnotations:
           secret.reloader.stakater.com/reload: backend-login-service-secret
+        service:
+          port: 8081
         containerPort: 8081
         ingress:
           enabled: true
@@ -40,6 +42,9 @@ spec:
           create: true
           annotations:
             eks.amazonaws.com/role-arn: arn:aws:iam::881490135253:role/team9-mini-dev-login-service-cognito
+        env:
+          - name: CORS_ALLOWED_ORIGINS
+            value: https://front.team9.cloud.skala-ai.com
         envFromSecretRefs:
           - backend-login-service-secret
         externalSecret:

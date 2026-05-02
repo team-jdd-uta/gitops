@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backend-kafka-outbox-dev
+  namespace: argocd
+spec:
+  project: team9-dev
+  source:
+    repoURL: https://github.com/team-jdd-uta/gitops.git
+    targetRevision: feat/gitops-app-paths
+    path: apps/backend/dev
+    helm:
+      releaseName: backend-kafka-outbox
+      values: |
+        nameOverride: backend-kafka-outbox
+        fullnameOverride: backend-kafka-outbox
+        image:
+          repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-kafka-outbox
+          tag: latest
+        ingress:
+          enabled: false
+        envFromSecretRefs:
+          - backend-kafka-outbox-secret
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backend
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

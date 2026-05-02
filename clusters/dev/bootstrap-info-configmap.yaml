@@ -11,10 +11,14 @@ data:
   frontend_repo_url: https://github.com/team-jdd-uta/gitops.git
   frontend_target_revision: main
   frontend_path: apps/frontend/dev
+  rtmp_repo_url: https://github.com/team-jdd-uta/gitops.git
+  rtmp_target_revision: main
+  rtmp_path: apps/rtmp/dev
   external_dns_domain_filter: team9.cloud.skala-ai.com
   external_dns_txt_owner_id: team9-dev
   external_dns_irsa_role_arn: arn:aws:iam::123456789012:role/team9-dev-external-dns
   notes: |
     Replace the example domain and IAM values before syncing production-like
     workloads. Backend and frontend manifests are expected under apps/backend/dev
-    and apps/frontend/dev in this same repository.
+    and apps/frontend/dev in this same repository. RTMP is deployed separately
+    under apps/rtmp/dev and uses one shared NLB Service for 1935/TCP + 80/TCP.
