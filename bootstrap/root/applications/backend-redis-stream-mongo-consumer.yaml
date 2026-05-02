@@ -38,6 +38,8 @@ spec:
         env:
           - name: PORT
             value: "3010"
+          - name: REDIS_URL
+            value: rediss://keepinlinedevredis-0001-001.keepinlinedevredis.1spwho.apn2.cache.amazonaws.com:6379
         envFromSecretRefs:
           - backend-redis-stream-mongo-consumer-secret
         externalSecret:
