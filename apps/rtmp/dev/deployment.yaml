@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: nginx-rtmp
-          image: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-rtmp:28caa1489bbf
+          image: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-rtmp:9d56ca54ef80
           imagePullPolicy: IfNotPresent
           ports:
             - name: rtmp
