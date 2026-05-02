@@ -44,16 +44,6 @@ spec:
             value: /api/chat
           - name: ROOM_SERVICE_BASE_URL
             value: http://backend-room-service:8082/api/room
-          - name: SPRING_REDIS_SSL
-            value: "true"
-          - name: CHAT_STREAM_REDIS_SSL
-            value: "true"
-          - name: SPRING_REDIS_CLUSTER_NODES
-            value: clustercfg.keepinlinedevredis.1spwho.apn2.cache.amazonaws.com:6379
-          - name: CHAT_STREAM_REDIS_HOST
-            value: keepinlinedevredis-0001-001.keepinlinedevredis.1spwho.apn2.cache.amazonaws.com
-          - name: CHAT_STREAM_REDIS_PORT
-            value: "6379"
         envFromSecretRefs:
           - backend-chat-service-secret
         externalSecret:
