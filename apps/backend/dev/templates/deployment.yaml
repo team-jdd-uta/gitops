@@ -5,6 +5,10 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     {{- include "backend-dev.labels" . | nindent 4 }}
+  {{- with .Values.deploymentAnnotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:

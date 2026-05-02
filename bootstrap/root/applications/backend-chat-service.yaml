@@ -17,6 +17,8 @@ spec:
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-chat-service
           tag: latest
+        deploymentAnnotations:
+          secret.reloader.stakater.com/reload: backend-chat-service-secret
         ingress:
           enabled: false
         envFromSecretRefs:

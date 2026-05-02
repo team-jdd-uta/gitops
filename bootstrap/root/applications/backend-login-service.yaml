@@ -17,6 +17,8 @@ spec:
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-login-service
           tag: f9665d1958a6
+        deploymentAnnotations:
+          secret.reloader.stakater.com/reload: backend-login-service-secret
         containerPort: 8081
         ingress:
           enabled: true
