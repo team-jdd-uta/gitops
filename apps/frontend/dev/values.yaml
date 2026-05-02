@@ -37,9 +37,6 @@ env:
   - name: NODE_ENV
     value: development
 
-envFromSecretRefs:
-  - frontend-app-secret
-
 resources: {}
 
 nodeSelector: {}

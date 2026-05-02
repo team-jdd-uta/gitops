@@ -35,8 +35,6 @@ spec:
         env:
           - name: NODE_ENV
             value: production
-        envFromSecretRefs:
-          - frontend-app-secret
   destination:
     server: https://kubernetes.default.svc
     namespace: frontend
