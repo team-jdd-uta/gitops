@@ -4,4 +4,3 @@ namespace: rtmp
 resources:
   - deployment.yaml
   - service.yaml
-  - externalsecret.yaml

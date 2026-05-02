@@ -25,12 +25,6 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          env:
-            - name: RTMP_CALLBACK_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: rtmp-secret
-                  key: RTMP_CALLBACK_SECRET
           readinessProbe:
             httpGet:
               path: /stat
