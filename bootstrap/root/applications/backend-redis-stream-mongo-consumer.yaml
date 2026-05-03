@@ -41,7 +41,7 @@ spec:
           - name: CORS_ALLOWED_ORIGINS
             value: https://front.team9.cloud.skala-ai.com,http://localhost:5173,http://127.0.0.1:5173
           - name: REDIS_URL
-            value: rediss://keepinlinedevredis-0001-001.keepinlinedevredis.1spwho.apn2.cache.amazonaws.com:6379
+            value: redis://keepinlinedevredis-0001-001.keepinlinedevredis.1spwho.apn2.cache.amazonaws.com:6379
           - name: SUMMARY_SERVICE_URL
             value: http://ai-chat-summary:8000
           - name: SUMMARY_AUTO_ENABLED
