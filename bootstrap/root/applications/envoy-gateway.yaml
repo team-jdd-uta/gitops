@@ -8,7 +8,7 @@ metadata:
 spec:
   project: team9-dev
   source:
-    repoURL: oci://docker.io/envoyproxy
+    repoURL: docker.io/envoyproxy
     chart: gateway-helm
     targetRevision: v1.5.9
     helm:
@@ -22,3 +22,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
