@@ -42,6 +42,11 @@ spec:
             value: https://front.team9.cloud.skala-ai.com,http://localhost:5173,http://127.0.0.1:5173
           - name: REDIS_URL
             value: redis://keepinlinedevredis-0001-001.keepinlinedevredis.1spwho.apn2.cache.amazonaws.com:6379
+          - name: REDIS_NODES
+            valueFrom:
+              secretKeyRef:
+                name: backend-redis-stream-mongo-consumer-secret
+                key: REDIS_NODES
           - name: SUMMARY_SERVICE_URL
             value: http://ai-chat-summary:8000
           - name: SUMMARY_AUTO_ENABLED
@@ -60,6 +65,11 @@ spec:
           enabled: true
           targetName: backend-redis-stream-mongo-consumer-secret
           remoteKey: team9-mini/dev/backend/redis-stream-mongo-consumer
+          data:
+            - secretKey: REDIS_NODES
+              remoteRef:
+                key: team9-mini-dev-redis-pubsub
+                property: REDIS_NODES
   destination:
     server: https://kubernetes.default.svc
     namespace: backend
