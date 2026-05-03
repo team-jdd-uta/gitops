@@ -50,6 +50,11 @@ spec:
             value: https://front.team9.cloud.skala-ai.com,http://localhost:5173,http://127.0.0.1:5173
           - name: ROOM_SERVICE_BASE_URL
             value: http://backend-room-service:8082/api/room
+          - name: SPRING_DATA_MONGODB_URI
+            valueFrom:
+              secretKeyRef:
+                name: backend-user-service-secret
+                key: MONGO_URI
           - name: GATEWAY_AUTH_REQUIRED
             value: "true"
         envFromSecretRefs:
