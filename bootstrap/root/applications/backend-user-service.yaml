@@ -16,7 +16,7 @@ spec:
         fullnameOverride: backend-user-service
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-user-service
-          tag: 48ae6e7b3fe1
+          tag: e754a7bd6d39
         deploymentAnnotations:
           secret.reloader.stakater.com/reload: backend-user-service-secret
         service:
