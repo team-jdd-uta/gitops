@@ -3,6 +3,8 @@ kind: Application
 metadata:
   name: envoy-gateway-dev
   namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "-20"
 spec:
   project: team9-dev
   source:
@@ -15,5 +17,8 @@ spec:
     server: https://kubernetes.default.svc
     namespace: envoy-gateway-system
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true

@@ -53,6 +53,8 @@ spec:
             value: https://front.team9.cloud.skala-ai.com,http://localhost:*
           - name: SPRING_REDIS_CLUSTER_NODES
             value: team9-mini-dev-redis-pubsub.1spwho.clustercfg.apn2.cache.amazonaws.com:6379
+          - name: GATEWAY_AUTH_REQUIRED
+            value: "true"
         envFromSecretRefs:
           - backend-room-service-secret
         externalSecret:

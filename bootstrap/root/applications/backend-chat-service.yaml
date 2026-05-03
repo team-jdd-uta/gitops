@@ -48,6 +48,8 @@ spec:
             value: /api/chat
           - name: ROOM_SERVICE_BASE_URL
             value: http://backend-room-service:8082/api/room
+          - name: GATEWAY_AUTH_REQUIRED
+            value: "true"
         envFromSecretRefs:
           - backend-chat-service-secret
         externalSecret:
