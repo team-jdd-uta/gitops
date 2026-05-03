@@ -22,3 +22,14 @@ spec:
       allowedRoutes:
         namespaces:
           from: Same
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: api.team9.cloud.skala-ai.com
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: team9-api-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
