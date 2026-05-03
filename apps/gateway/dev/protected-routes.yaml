@@ -22,7 +22,7 @@ spec:
               - http://localhost:5173
               - http://127.0.0.1:5173
             allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
-            allowHeaders: [authorization, content-type, x-requested-with]
+            allowHeaders: [authorization, content-type, x-requested-with, x-user-id]
             allowCredentials: true
             maxAge: 1800
         - type: URLRewrite
@@ -46,7 +46,7 @@ spec:
               - http://localhost:5173
               - http://127.0.0.1:5173
             allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
-            allowHeaders: [authorization, content-type, x-requested-with]
+            allowHeaders: [authorization, content-type, x-requested-with, x-user-id]
             allowCredentials: true
             maxAge: 1800
       backendRefs:
@@ -74,7 +74,7 @@ spec:
               - http://localhost:5173
               - http://127.0.0.1:5173
             allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
-            allowHeaders: [authorization, content-type, x-requested-with]
+            allowHeaders: [authorization, content-type, x-requested-with, x-user-id]
             allowCredentials: true
             maxAge: 1800
       backendRefs:
@@ -93,7 +93,7 @@ spec:
               - http://localhost:5173
               - http://127.0.0.1:5173
             allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
-            allowHeaders: [authorization, content-type, x-requested-with]
+            allowHeaders: [authorization, content-type, x-requested-with, x-user-id]
             allowCredentials: true
             maxAge: 1800
       backendRefs:
