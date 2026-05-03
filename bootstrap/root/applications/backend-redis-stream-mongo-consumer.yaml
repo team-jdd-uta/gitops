@@ -42,6 +42,18 @@ spec:
             value: https://front.team9.cloud.skala-ai.com,http://localhost:5173,http://127.0.0.1:5173
           - name: REDIS_URL
             value: rediss://keepinlinedevredis-0001-001.keepinlinedevredis.1spwho.apn2.cache.amazonaws.com:6379
+          - name: SUMMARY_SERVICE_URL
+            value: http://ai-chat-summary:8000
+          - name: SUMMARY_AUTO_ENABLED
+            value: "false"
+          - name: SUMMARY_MANUAL_WINDOW_MINUTES
+            value: "5"
+          - name: SUMMARY_MANUAL_MIN_MESSAGES
+            value: "10"
+          - name: SUMMARY_MANUAL_MAX_MESSAGES
+            value: "100"
+          - name: ROOM_SERVICE_URL
+            value: http://backend-room-service:8082/api/room
         envFromSecretRefs:
           - backend-redis-stream-mongo-consumer-secret
         externalSecret:

@@ -1,0 +1,44 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ai-chat-summary-dev
+  namespace: argocd
+spec:
+  project: team9-dev
+  source:
+    repoURL: https://github.com/team-jdd-uta/gitops.git
+    targetRevision: main
+    path: apps/backend/dev
+    helm:
+      releaseName: ai-chat-summary
+      values: |
+        nameOverride: ai-chat-summary
+        fullnameOverride: ai-chat-summary
+        image:
+          repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-ai-chat-summary
+          tag: latest
+        service:
+          port: 8000
+        containerPort: 8000
+        ingress:
+          enabled: false
+        env:
+          - name: PORT
+            value: "8000"
+          - name: UVICORN_RELOAD
+            value: "false"
+        envFromSecretRefs:
+          - ai-chat-summary-secret
+        externalSecret:
+          enabled: true
+          targetName: ai-chat-summary-secret
+          remoteKey: team9-mini/dev/backend/ai-chat-summary
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backend
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
