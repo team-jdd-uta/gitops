@@ -18,7 +18,7 @@ spec:
         fullnameOverride: backend-auth-service
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-auth-service
-          tag: pending
+          tag: 3941056f5abd
           pullPolicy: IfNotPresent
         deploymentAnnotations:
           secret.reloader.stakater.com/reload: backend-auth-service-secret
