@@ -55,6 +55,11 @@ spec:
               secretKeyRef:
                 name: backend-user-service-secret
                 key: MONGO_URI
+          - name: SPRING_MONGODB_URI
+            valueFrom:
+              secretKeyRef:
+                name: backend-user-service-secret
+                key: MONGO_URI
           - name: GATEWAY_AUTH_REQUIRED
             value: "true"
         envFromSecretRefs:
