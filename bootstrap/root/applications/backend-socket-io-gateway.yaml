@@ -48,6 +48,8 @@ spec:
             value: http://backend-room-service:8082/api/room
           - name: CHAT_SERVICE_URL
             value: http://backend-chat-service:8083/api/chat
+          - name: LOGIN_SERVICE_BASE_URL
+            value: http://backend-login-service:8081
         envFromSecretRefs:
           - backend-socket-io-gateway-secret
         externalSecret:
@@ -59,6 +61,18 @@ spec:
               remoteRef:
                 key: team9-mini-dev-redis-pubsub
                 property: REDIS_NODES
+            - secretKey: COGNITO_USER_POOL_ID
+              remoteRef:
+                key: team9-mini/dev/backend/login-service
+                property: COGNITO_USER_POOL_ID
+            - secretKey: COGNITO_CLIENT_ID
+              remoteRef:
+                key: team9-mini/dev/backend/login-service
+                property: COGNITO_CLIENT_ID
+            - secretKey: LOGIN_SERVICE_INTERNAL_TOKEN
+              remoteRef:
+                key: team9-mini/dev/backend/login-service
+                property: LOGIN_SERVICE_INTERNAL_TOKEN
   destination:
     server: https://kubernetes.default.svc
     namespace: backend

@@ -5,9 +5,12 @@ resources:
   - applications/backend-user-service.yaml
   - applications/backend-redis-stream-mongo-consumer.yaml
   - applications/backend-login-service.yaml
+  - applications/backend-auth-service.yaml
   - applications/backend-socket-io-gateway.yaml
   - applications/backend-chat-service.yaml
   - applications/backend-room-service.yaml
   - applications/ai-chat-summary.yaml
   - applications/frontend.yaml
   - applications/rtmp.yaml
+  - applications/envoy-gateway.yaml
+  - applications/team9-api-gateway.yaml

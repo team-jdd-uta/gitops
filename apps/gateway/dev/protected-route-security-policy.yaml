@@ -1,0 +1,22 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: team9-protected-route-auth
+  namespace: backend
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: team9-protected-routes
+  extAuth:
+    http:
+      backendRefs:
+        - name: backend-auth-service
+          port: 8088
+      path: /authorize
+      headersToBackend:
+        - X-Auth-Gateway
+        - X-Cognito-Sub
+        - X-User-Id
+        - X-User-Name
+        - X-User-Email

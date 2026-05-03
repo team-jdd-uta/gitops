@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backend-auth-service-dev
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "10"
+spec:
+  project: team9-dev
+  source:
+    repoURL: https://github.com/team-jdd-uta/gitops.git
+    targetRevision: main
+    path: apps/backend/dev
+    helm:
+      releaseName: backend-auth-service
+      values: |
+        nameOverride: backend-auth-service
+        fullnameOverride: backend-auth-service
+        image:
+          repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-auth-service
+          tag: 3941056f5abd
+          pullPolicy: IfNotPresent
+        deploymentAnnotations:
+          secret.reloader.stakater.com/reload: backend-auth-service-secret
+        service:
+          port: 8088
+        containerPort: 8088
+        ingress:
+          enabled: false
+        env:
+          - name: SERVER_PORT
+            value: "8088"
+          - name: LOGIN_SERVICE_BASE_URL
+            value: http://backend-login-service:8081
+          - name: AUTH_PUBLIC_ROUTES
+            value: GET /health,POST /auth/login,POST /auth/register,POST /auth/refresh,GET /api/room/rooms,GET /api/room/rooms/categories,GET /api/room/rooms/counts,GET /api/user/comments/room,GET /api/chat-history,GET /api/chat-history/summaries,GET /api/chat-history/comments
+        envFromSecretRefs:
+          - backend-auth-service-secret
+        externalSecret:
+          enabled: true
+          targetName: backend-auth-service-secret
+          remoteKey: team9-mini/dev/backend/login-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backend
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
