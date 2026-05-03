@@ -25,12 +25,13 @@ kubectl apply -f bootstrap/root-application.yaml
 - `backend-chat-service-dev`
 - `backend-socket-io-gateway-dev`
 - `backend-redis-stream-mongo-consumer-dev`
+- `ai-chat-summary-dev`
 - `frontend-ui-vue-dev`
 - `rtmp-dev`
 
-The root kustomization currently includes the service Applications above.
-`external-secrets`, `external-dns`, and old `backend-kafka-outbox` manifests are
-kept as references but are not part of the active root sync path.
+Only files referenced by `bootstrap/root/kustomization.yaml` are active root
+sync targets. Reference-only or Terraform-managed Application examples live
+under `bootstrap/root/applications-disabled/`.
 
 ## Repository Layout
 
@@ -40,6 +41,7 @@ bootstrap/
   root/
     project-team9.yaml
     applications/
+    applications-disabled/
 apps/
   backend/dev/
   frontend/dev/
