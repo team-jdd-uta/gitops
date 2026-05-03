@@ -10,6 +10,7 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: HTTP
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "80"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /stat
+    external-dns.alpha.kubernetes.io/hostname: rtmp.team9.cloud.skala-ai.com
 spec:
   type: LoadBalancer
   selector:
