@@ -16,7 +16,7 @@ spec:
         fullnameOverride: backend-chat-service
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-chat-service
-          tag: de9cafe7804d
+          tag: 2e3b64b25a93
         deploymentAnnotations:
           secret.reloader.stakater.com/reload: backend-chat-service-secret
         service:
