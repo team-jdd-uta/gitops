@@ -39,6 +39,14 @@ env:
 
 resources: {}
 
+podSecurityContext: {}
+
+securityContext: {}
+
+livenessProbe: {}
+
+readinessProbe: {}
+
 nodeSelector: {}
 
 tolerations: []

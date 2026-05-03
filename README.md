@@ -56,6 +56,9 @@ clusters/
   Each Argo Application passes service-specific Helm values inline.
 - The frontend uses the Helm chart in `apps/frontend/dev`.
 - RTMP uses raw Kubernetes manifests under `apps/rtmp/dev`.
+- The backend and frontend Helm charts support optional `podSecurityContext`,
+  `securityContext`, `livenessProbe`, and `readinessProbe` values. Defaults are
+  empty to avoid changing existing service behavior.
 - All active child Applications point at this same gitops repository and
   `targetRevision: main`.
 - Argo CD automated sync is enabled with `prune` and `selfHeal`.
