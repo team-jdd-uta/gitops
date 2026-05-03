@@ -9,14 +9,18 @@ spec:
       kind: HTTPRoute
       name: team9-protected-routes
   extAuth:
+    headersToExtAuth:
+      - authorization
+      - cookie
+      - origin
     http:
       backendRefs:
         - name: backend-auth-service
           port: 8088
       path: /authorize
       headersToBackend:
-        - X-Auth-Gateway
-        - X-Cognito-Sub
-        - X-User-Id
-        - X-User-Name
-        - X-User-Email
+        - x-auth-gateway
+        - x-cognito-sub
+        - x-user-id
+        - x-user-name
+        - x-user-email
