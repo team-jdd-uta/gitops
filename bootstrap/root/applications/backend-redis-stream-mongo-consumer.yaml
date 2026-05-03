@@ -51,6 +51,8 @@ spec:
             value: http://ai-chat-summary:8000
           - name: SUMMARY_AUTO_ENABLED
             value: "false"
+          - name: PENDING_RECOVERY_ENABLED
+            value: "false"
           - name: SUMMARY_MANUAL_WINDOW_MINUTES
             value: "5"
           - name: SUMMARY_MANUAL_MIN_MESSAGES
