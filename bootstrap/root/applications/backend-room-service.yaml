@@ -16,7 +16,7 @@ spec:
         fullnameOverride: backend-room-service
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-room-service
-          tag: e700acfc0f8d
+          tag: d2226d393128
           pullPolicy: IfNotPresent
         deploymentAnnotations:
           secret.reloader.stakater.com/reload: backend-room-service-secret
