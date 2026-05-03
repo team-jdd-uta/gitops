@@ -53,6 +53,8 @@ spec:
             value: https://front.team9.cloud.skala-ai.com,http://localhost:*
           - name: SPRING_REDIS_CLUSTER_NODES
             value: team9-mini-dev-redis-pubsub.1spwho.clustercfg.apn2.cache.amazonaws.com:6379
+          - name: ROOM_CATEGORIES
+            value: 게임,토크,음악,스포츠,요리,예술,크리에이티브,학습
           - name: GATEWAY_AUTH_REQUIRED
             value: "true"
         envFromSecretRefs:
