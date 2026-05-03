@@ -16,7 +16,7 @@ spec:
         fullnameOverride: backend-redis-stream-mongo-consumer
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-redis-stream-mongo-consumer
-          tag: 210f720ac9f1
+          tag: bac27730eb88
         service:
           port: 3010
         containerPort: 3010
