@@ -8,7 +8,7 @@ spec:
   sourceRepos:
     - https://charts.external-secrets.io
     - https://kubernetes-sigs.github.io/external-dns/
-    - oci://docker.io/envoyproxy
+    - docker.io/envoyproxy
     - https://github.com/team-jdd-uta/gitops.git
   destinations:
     - namespace: argocd
