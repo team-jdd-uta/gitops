@@ -4,6 +4,11 @@ metadata:
   name: team9-envoy-gateway
 spec:
   controllerName: gateway.envoyproxy.io/gatewayclass-controller
+  parametersRef:
+    group: gateway.envoyproxy.io
+    kind: EnvoyProxy
+    name: team9-envoy-proxy
+    namespace: backend
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
@@ -12,9 +17,6 @@ metadata:
   namespace: backend
   annotations:
     external-dns.alpha.kubernetes.io/hostname: api.team9.cloud.skala-ai.com
-    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
-    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
-    service.beta.kubernetes.io/aws-load-balancer-type: external
 spec:
   gatewayClassName: team9-envoy-gateway
   listeners:
