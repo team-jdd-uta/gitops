@@ -25,6 +25,7 @@ spec:
           className: alb
           annotations:
             alb.ingress.kubernetes.io/scheme: internet-facing
+            alb.ingress.kubernetes.io/target-type: ip
             external-dns.alpha.kubernetes.io/hostname: front.team9.cloud.skala-ai.com
           hosts:
             - host: front.team9.cloud.skala-ai.com
