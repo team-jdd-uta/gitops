@@ -70,6 +70,18 @@ spec:
               remoteRef:
                 key: team9-mini-dev-redis-pubsub
                 property: REDIS_NODES
+            - secretKey: DB_URL
+              remoteRef:
+                key: team9-mini/dev/backend/chat-service
+                property: DB_URL
+            - secretKey: DB_USER
+              remoteRef:
+                key: team9-mini-dev-db-03-credentials
+                property: username
+            - secretKey: DB_PASSWORD
+              remoteRef:
+                key: team9-mini-dev-db-03-credentials
+                property: password
   destination:
     server: https://kubernetes.default.svc
     namespace: backend
