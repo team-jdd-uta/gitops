@@ -14,6 +14,17 @@ spec:
             type: PathPrefix
             value: /auth/login
       filters:
+        - type: CORS
+          cors:
+            allowOrigins:
+              - https://front.team9.cloud.skala-ai.com
+              - https://d2fwb6om3m5abf.cloudfront.net
+              - http://localhost:5173
+              - http://127.0.0.1:5173
+            allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+            allowHeaders: [authorization, content-type, x-requested-with]
+            allowCredentials: true
+            maxAge: 1800
         - type: URLRewrite
           urlRewrite:
             path:
@@ -27,6 +38,17 @@ spec:
             type: PathPrefix
             value: /auth/register
       filters:
+        - type: CORS
+          cors:
+            allowOrigins:
+              - https://front.team9.cloud.skala-ai.com
+              - https://d2fwb6om3m5abf.cloudfront.net
+              - http://localhost:5173
+              - http://127.0.0.1:5173
+            allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+            allowHeaders: [authorization, content-type, x-requested-with]
+            allowCredentials: true
+            maxAge: 1800
         - type: URLRewrite
           urlRewrite:
             path:
@@ -40,6 +62,17 @@ spec:
             type: PathPrefix
             value: /auth/refresh
       filters:
+        - type: CORS
+          cors:
+            allowOrigins:
+              - https://front.team9.cloud.skala-ai.com
+              - https://d2fwb6om3m5abf.cloudfront.net
+              - http://localhost:5173
+              - http://127.0.0.1:5173
+            allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+            allowHeaders: [authorization, content-type, x-requested-with]
+            allowCredentials: true
+            maxAge: 1800
         - type: URLRewrite
           urlRewrite:
             path:
@@ -53,6 +86,18 @@ spec:
           path:
             type: PathPrefix
             value: /api/room/rooms
+      filters:
+        - type: CORS
+          cors:
+            allowOrigins:
+              - https://front.team9.cloud.skala-ai.com
+              - https://d2fwb6om3m5abf.cloudfront.net
+              - http://localhost:5173
+              - http://127.0.0.1:5173
+            allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+            allowHeaders: [authorization, content-type, x-requested-with]
+            allowCredentials: true
+            maxAge: 1800
       backendRefs:
         - name: backend-room-service
           port: 8082
@@ -61,6 +106,18 @@ spec:
           path:
             type: PathPrefix
             value: /api/user/comments/room
+      filters:
+        - type: CORS
+          cors:
+            allowOrigins:
+              - https://front.team9.cloud.skala-ai.com
+              - https://d2fwb6om3m5abf.cloudfront.net
+              - http://localhost:5173
+              - http://127.0.0.1:5173
+            allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+            allowHeaders: [authorization, content-type, x-requested-with]
+            allowCredentials: true
+            maxAge: 1800
       backendRefs:
         - name: backend-user-service
           port: 8084
@@ -69,6 +126,18 @@ spec:
           path:
             type: PathPrefix
             value: /api/chat-history
+      filters:
+        - type: CORS
+          cors:
+            allowOrigins:
+              - https://front.team9.cloud.skala-ai.com
+              - https://d2fwb6om3m5abf.cloudfront.net
+              - http://localhost:5173
+              - http://127.0.0.1:5173
+            allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+            allowHeaders: [authorization, content-type, x-requested-with]
+            allowCredentials: true
+            maxAge: 1800
       backendRefs:
         - name: backend-redis-stream-mongo-consumer
           port: 3010
@@ -76,6 +145,18 @@ spec:
         - path:
             type: PathPrefix
             value: /api/socket
+      filters:
+        - type: CORS
+          cors:
+            allowOrigins:
+              - https://front.team9.cloud.skala-ai.com
+              - https://d2fwb6om3m5abf.cloudfront.net
+              - http://localhost:5173
+              - http://127.0.0.1:5173
+            allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+            allowHeaders: [authorization, content-type, x-requested-with]
+            allowCredentials: true
+            maxAge: 1800
       backendRefs:
         - name: backend-socket-io-gateway
           port: 3000
@@ -84,6 +165,18 @@ spec:
           path:
             type: PathPrefix
             value: /health
+      filters:
+        - type: CORS
+          cors:
+            allowOrigins:
+              - https://front.team9.cloud.skala-ai.com
+              - https://d2fwb6om3m5abf.cloudfront.net
+              - http://localhost:5173
+              - http://127.0.0.1:5173
+            allowMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
+            allowHeaders: [authorization, content-type, x-requested-with]
+            allowCredentials: true
+            maxAge: 1800
       backendRefs:
         - name: backend-auth-service
           port: 8088
