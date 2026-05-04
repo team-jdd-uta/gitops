@@ -50,6 +50,24 @@ spec:
             value: http://backend-chat-service:8083/api/chat
           - name: LOGIN_SERVICE_BASE_URL
             value: http://backend-login-service:8081
+        monitoring:
+          serviceMonitor:
+            enabled: true
+            interval: 30s
+            scrapeTimeout: 10s
+            path: /metrics
+            releaseLabel: kube-prometheus-stack
+        autoscaling:
+          keda:
+            enabled: true
+            pollingInterval: 30
+            cooldownPeriod: 300
+            minReplicaCount: 1
+            maxReplicaCount: 10
+            prometheus:
+              serverAddress: http://kube-prometheus-stack-prometheus.monitoring:9090
+              query: sum(socketio_active_connections)
+              threshold: 200
         envFromSecretRefs:
           - backend-socket-io-gateway-secret
         externalSecret:
