@@ -134,6 +134,10 @@ spec:
           path:
             type: PathPrefix
             value: /api/chat-history
+        - method: POST
+          path:
+            type: PathPrefix
+            value: /api/chat-history
         - method: OPTIONS
           path:
             type: PathPrefix
