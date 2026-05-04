@@ -16,7 +16,7 @@ spec:
         fullnameOverride: backend-socket-io-gateway
         image:
           repository: 881490135253.dkr.ecr.ap-northeast-2.amazonaws.com/team9-socket-io-gateway
-          tag: ea913e762f50
+          tag: 83b663343d4f
         service:
           port: 3000
         containerPort: 3000
